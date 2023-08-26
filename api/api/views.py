@@ -11,7 +11,6 @@ def task_list(request):
 
     if request.method == 'GET':
         tasks = Task.objects.all()
-        print(tasks)
         serialized_tasks = TaskSerializer(tasks, many=True)
         return Response(serialized_tasks.data)
 
