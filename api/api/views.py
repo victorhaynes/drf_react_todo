@@ -34,9 +34,22 @@ def task_detail(request, id):
     if request.method == 'GET':
         serialized_task = TaskSerializer(task)
         return Response(serialized_task.data, status=status.HTTP_200_OK)
+    
     elif request.method == 'PUT':
-        pass
+        serialized_task = TaskSerializer(task, data=request.data)
+        if serialized_task.is_valid():
+            serialized_task.save()
+            return Response(serialized_task.data, status.HTTP_202_ACCEPTED)
+        return Response(serialized_task.errors, status=status.HTTP_400_BAD_REQUEST)
+        
     elif request.method == 'PATCH':
-        pass
+        serialized_task = TaskSerializer(task, data=request.data, partial=True)
+        if serialized_task.is_valid():
+            serialized_task.save()
+            return Response(serialized_task.data,status.HTTP_202_ACCEPTED)
+        return Response(serialized_task.errors, status=status.HTTP_400_BAD_REQUEST)
+    
     elif request.method == 'DELETE':
-        pass
+        deleted_task = TaskSerializer(task)
+        task.delete()
+        return Response(deleted_task.data, status=status.HTTP_202_ACCEPTED)
