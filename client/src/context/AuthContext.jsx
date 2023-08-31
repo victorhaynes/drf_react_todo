@@ -22,7 +22,7 @@ export const AuthProvider = ({children}) => {
                 "username": e.target.username.value,
                 "password": e.target.password.value
             })
-        })
+        }).then(e.target.reset())
         let data = await response.json()
         if(response.ok){
             setAuthTokens(data)
@@ -30,7 +30,6 @@ export const AuthProvider = ({children}) => {
         } else{
             alert('ERROR')
         }
-
     }
 
     let contextData = {
