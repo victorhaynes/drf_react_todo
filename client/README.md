@@ -1,5 +1,6 @@
 Installations:
-React router
+React router v6
+JWT Decode
 
 # Getting Started with Create React App
 
