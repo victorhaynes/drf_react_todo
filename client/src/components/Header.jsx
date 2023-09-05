@@ -10,7 +10,7 @@ const Header = () => {
     <div>  
         <Link to="/">Home</Link>
         <span> | </span>
-        {user ? <Link to="/" onClick={logoutUser}>Logout</Link> : <Link to="/login">Login</Link>}
+        {user ? <Link to="/login" onClick={logoutUser}>Logout</Link> : <Link to="/login">Login</Link>}
         <span> | </span>
         <Link to="/profile">Profile Page</Link>
         {user ? <p>Hello {user.username}</p> : null}

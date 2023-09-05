@@ -22,8 +22,8 @@ function App() {
       <AuthProvider>
       <Header/>
         <Routes>
-          <Route Component={Home} path="/" exact/>
           <Route Component={LoginPage} path="/login"/>
+          <Route Component={Home} path="/" exact/>
           <Route Component={PrivateRoutes}>
             <Route Component={ProfilePage} path="/profile"/>
           </Route>
