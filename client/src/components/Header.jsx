@@ -8,12 +8,12 @@ const Header = () => {
   let {user, logoutUser} = useContext(AuthContext)
   return (
     <div>  
-        <Link to="/">Home</Link>
+        <Link to="/tasks">Tasks</Link>
         <span> | </span>
         {user ? <Link to="/login" onClick={logoutUser}>Logout</Link> : <Link to="/login">Login</Link>}
         <span> | </span>
         <Link to="/profile">Profile Page</Link>
-        {user ? <p>Hello {user.username}</p> : null}
+        {user ? <p>Signed in as {user.username}</p> : null}
     </div>
   )
 }

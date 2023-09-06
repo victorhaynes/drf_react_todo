@@ -1,10 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react'
 import AuthContext from '../context/AuthContext'
+import { Link } from 'react-router-dom'
 
-const Home = () => {
+const UserTasks = () => {
 
   const [tasks, setTasks] = useState([])
-  const {authTokens, logoutUser} = useContext(AuthContext)
+  const {authTokens, logoutUser, user} = useContext(AuthContext)
 
   useEffect(()=>{
     fetchTasks()
@@ -26,16 +27,20 @@ const Home = () => {
     }
   }
 
+
+
   return (
     <div>
-      <h1>HOME PAGE</h1>
+      <h1>{user.username.toUpperCase()}'s Tasks</h1>
       <ul>
           {tasks.map(task => (
-              <li key={task.id} >{task.title}</li>
+              <Link key={task.id} to={`/tasks/${task.id}`}>
+                <li>{task.title}</li>
+              </Link>
           ))}
       </ul>
     </div>
   )
 }
 
-export default Home
+export default UserTasks
