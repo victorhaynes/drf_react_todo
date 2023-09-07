@@ -12,12 +12,13 @@ export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
     const [authTokens, setAuthTokens] = useState(localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     const [loading, setLoading] = useState(true)
+    // const [tasks, setTasks] = useState([])
 
     const navigate = useNavigate()
 
-    let loginUser = async (e) => {
+    function loginUser(e){
         e.preventDefault()
-        let response = await fetch('http://127.0.0.1:8000/api/token/',{
+        fetch('http://127.0.0.1:8000/api/token/',{
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -26,17 +27,48 @@ export const AuthProvider = ({children}) => {
                 "username": e.target.username.value,
                 "password": e.target.password.value
             })
-        }).then(e.target.reset())
-        let data = await response.json()
-        if(response.ok){
-            setAuthTokens(data)
-            setUser(jwt_decode(data.access))
-            localStorage.setItem('authTokens', JSON.stringify(data))
-            navigate('/tasks')
-        } else {
-            alert('ERROR')
-        }
+        })
+        .then(res => {
+            if(res.status === 200){
+                res.json().then(jwtToken =>{
+                    setAuthTokens(jwtToken)
+                    setUser(jwt_decode(jwtToken.access))
+                    localStorage.setItem('authTokens', JSON.stringify(jwtToken))
+                    navigate('/tasks')
+                    return
+
+                })
+            } else {
+                res.json().then(err => console.log(err))
+            }
+        })
     }
+
+    // async function fetchUserTasks(){
+    //     fetch('http://127.0.0.1:8000/tasks/',{
+    //                 method: 'GET',
+    //                 headers:{
+    //                   'Content-Type': 'application/json',
+    //                   'Authorization': 'Bearer ' + authTokens?.access
+    //                 }
+    //               })
+    //               .then(res => {
+    //                 if(res.ok){
+    //                     res.json().then(tasksArray=>{
+    //                         setTasks(tasksArray)
+    //                     })
+    //                 } else {
+    //                     res.json().then(err => console.log(err))
+    //                 }
+    //               })
+    // }
+
+    // async function doBoth(){
+    //     loginUser()
+    //     .then(()=>fetchUserTasks)
+    // }
+
+
 
     const logoutUser = () => {
         setAuthTokens(null)

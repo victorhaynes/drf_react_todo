@@ -1,7 +1,8 @@
 from django.http import JsonResponse
 from .models import Task
 from .serializers import TaskSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -21,12 +22,16 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 ###################################################################################
 
 
-# /tasks/
+# /tasks/ - 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def task_list(request):
 
     if request.method == 'GET':
-        tasks = Task.objects.all()
+        # NO AUTH 1) tasks = Task.objects.all()
+        user = request.user
+        tasks = user.task_set.all()
+        # ALTERNATIVE/RAILS LIKE WAY 2) tasks = Task.objects.filter(user_id=user.id)
         serialized_tasks = TaskSerializer(tasks, many=True)
         return Response(serialized_tasks.data)
 
@@ -39,10 +44,11 @@ def task_list(request):
 
 # /tasks/<int:id>
 @api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def task_detail(request, id):
 
     try:
-        task = Task.objects.get(pk=id)
+        task = Task.objects.get(id=id)
     except Task.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

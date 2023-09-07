@@ -5,8 +5,10 @@ const UserTasksDetail = () => {
 
     const {taskId} = useParams();
 
+
+    
     return (
-        <div>This is task #{taskId}</div>
+        <div>This is task #{taskId} detail page</div>
     )
 }
 

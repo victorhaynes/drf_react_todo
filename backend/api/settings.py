@@ -46,8 +46,11 @@ INSTALLED_APPS = [
     ## DRF
     'rest_framework',
 
-    ## Auth, blacklist
-    'rest_framework_simplejwt.token_blacklist'
+    ## JWT Auth, blacklist
+    'rest_framework_simplejwt.token_blacklist',
+
+    ## CORS
+    "corsheaders"
 ]
 
 ## JWT AUTH CONFIG:
@@ -107,7 +110,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    ## CORS
+    "corsheaders.middleware.CorsMiddleware",
 ]
+## CORS
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'api.urls'
 

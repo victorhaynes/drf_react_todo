@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import AuthContext from '../context/AuthContext'
 
 const LoginPage = () => {
-  const {loginUser} = useContext(AuthContext)
+  const {loginUser, doBoth} = useContext(AuthContext)
 
   return (
     <div>
