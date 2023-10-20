@@ -2,9 +2,9 @@ import React, {useState, useEffect, useContext} from 'react'
 import AuthContext from '../context/AuthContext'
 import { Link } from 'react-router-dom'
 
-const UserTasks = () => {
+const UserTasks = ({tasks, setTasks}) => {
 
-  const [tasks, setTasks] = useState([])
+  // const [tasks, setTasks] = useState([])
   const {authTokens, logoutUser, user} = useContext(AuthContext)
 
   useEffect(()=>{
@@ -33,7 +33,7 @@ const UserTasks = () => {
     <div>
       <h1>{user.username.toUpperCase()}'s Tasks</h1>
       <ul>
-          {tasks.map(task => (
+          {tasks?.map(task => (
               <Link key={task.id} to={`/tasks/${task.id}`}>
                 <li>{task.title}</li>
               </Link>
